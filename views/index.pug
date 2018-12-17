@@ -1,0 +1,12 @@
+extends layout
+
+block content
+
+    h1= title
+    p Welcome to #{title}
+    a(href='/auth/google') Sign In/Sign Up with Google (NMH)
+
+    script(src='https://apis.google.com/js/platform.js?onload=init' async='' defer='')
+
+
+
