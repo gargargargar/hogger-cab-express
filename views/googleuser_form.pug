@@ -13,17 +13,23 @@ body
       a(href='/') Home
   form(method='POST' action='')
     .form-group
+      label(for='firstName') First Name
+      input.form-control(type='text' placeholder='Sample First Name' readonly='')
+    .form-group
+      label(for='lastName') Last Name
+      input.form-control(type='text' placeholder='Sample Last Name' readonly='')
+    .form-group
       label(for='emailAddress') Email address
-      input#emailAddress.form-control(type='email' aria-describedby='emailHelp' placeholder='@nmhschool.org' required='')
+      input#emailAddress.form-control(type='email' name='emailAddress' aria-describedby='emailHelp' placeholder='@nmhschool.org' required='')
       small#emailHelp.form-text.text-muted We&apos;ll never share your email with anyone else.
     //.form-group
       label(for='inputPassword') Password
       input#inputPassword.form-control(type='password' placeholder='Password')
     .form-group
       label(for='userType') Example select
-      select#userType.form-control
-        option Driver
-        option Rider
+      select#userType.form-control(name='userType')
+        option driver
+        option rider
     .form-check
       label.form-check-label
         input.form-check-input(type='checkbox' required='')
@@ -33,9 +39,9 @@ body
     button.btn.btn-primary(type='submit') Submit
 
   if errors 
-   ul
-    for error in errors
-     li!= error.msg
+    ul
+      for error in errors
+        li!= error.msg
 
   // Optional JavaScript
   // jQuery first, then Popper.js, then Bootstrap JS

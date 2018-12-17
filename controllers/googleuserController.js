@@ -93,6 +93,8 @@ exports.googleuser_create_post = [
         // Extract the validation errors from a request.
         const errors = validationResult(req);
 
+        console.log(req.body);
+
         // Create a genre object with escaped and trimmed data.
         var googleuser = new Googleuser({
             email_address: req.body.emailAddress,
