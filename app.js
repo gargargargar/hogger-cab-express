@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth')
 var googleusersRouter = require('./routes/googleusers');
+var rideRouter = require('./routes/ride');
 //todo: more routes (user registration, ride registration, etc.)
 
 
@@ -41,6 +42,7 @@ app.use('/users', usersRouter);
 //app.use('/catalog', catalogRouter);  // Add catalog routes to middleware chain.
 app.use('/auth', authRouter); //todo: see if this needs anything
 app.use('/googleusers', googleusersRouter);
+app.use('/ride', rideRouter);
 
 
 // error handler
