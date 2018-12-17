@@ -6,7 +6,8 @@ var Schema = mongoose.Schema;
 
 var LocationSchema = new Schema({
     name: {type: String, required: true},
-    on_campus: {type: Boolean, required: true}
+    on_campus: {type: Boolean, required: true},
+    id: {type: STring, required: true}
 });
 
 // Compile model from schema
