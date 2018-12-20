@@ -14,19 +14,22 @@ body
   form(method='POST' action='')
     .form-group
       label(for='firstName') First Name
-      input.form-control(type='text' placeholder='Sample First Name' readonly='')
+      input.form-control(type='text' placeholder=#(firstName)'Sample First Name' readonly='')
     .form-group
       label(for='lastName') Last Name
-      input.form-control(type='text' placeholder='Sample Last Name' readonly='')
+      input.form-control(type='text' placeholder=#(lastName) readonly='')
+    .form-group
+      label(for='displayName') Display Name
+      input.form-control(type='text' placeholder=#(displayName) readonly='')
     .form-group
       label(for='emailAddress') Email address
-      input#emailAddress.form-control(type='email' name='emailAddress' aria-describedby='emailHelp' placeholder='@nmhschool.org' required='')
+      input#emailAddress.form-control(type='email' name='emailAddress' aria-describedby='emailHelp' placeholder=#(emailAddress)  readonly=''/*required=''*/)
       small#emailHelp.form-text.text-muted We&apos;ll never share your email with anyone else.
     //.form-group
       label(for='inputPassword') Password
       input#inputPassword.form-control(type='password' placeholder='Password')
     .form-group
-      label(for='userType') Example select
+      label(for='userType') User Type
       select#userType.form-control(name='userType')
         option driver
         option rider

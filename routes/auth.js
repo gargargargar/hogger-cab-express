@@ -8,8 +8,7 @@ const mongoose = require('mongoose')
 // Require controller modules.
 var googleuser_controller = require('../controllers/googleuserController');
 
-router.get('/', function(req, res)
-{
+router.get('/', function(req, res){
 	res.redirect('/');
 })
 
@@ -27,10 +26,14 @@ router.get('/google',
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
 router.get('/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/login' }), //todo: make fail page
+    passport.authenticate('google', { failureRedirect: '/google' }), //todo: make fail page
     function(req, res) {
-    	res.redirect('/');
+    	res.redirect('/google/success');
     });
+
+router.get('/google/success', function(req, res){
+	res.render('../views/temp_login_success')
+})
 
 
 

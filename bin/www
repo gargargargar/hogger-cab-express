@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('hogger-cab-express:server');
 var http = require('http');
 
+const fs = require('fs');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -19,7 +21,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = http.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -29,9 +31,17 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+
+var options = {
+    cert: fs.readFileSync('./sslcert/cert.pem'),
+    key: fs.readFileSync('./sslcert/key.pem')
+};
+
 /**
  * Normalize a port into a number, string, or false.
  */
+
+
 
 function normalizePort(val) {
   var port = parseInt(val, 10);

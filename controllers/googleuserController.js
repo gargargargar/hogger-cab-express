@@ -8,6 +8,10 @@ require('dotenv').config();
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
+exports.googleuser_profile = function(req, res, next){
+
+}
+
 // Use the GoogleStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
 //   credentials (in this case, an accessToken, refreshToken, and Google
@@ -15,7 +19,8 @@ const { sanitizeBody } = require('express-validator/filter');
 passport.use(new GoogleStrategy({
         clientID: process.env.google_client_id,
         clientSecret: process.env.google_client_secret,
-        callbackURL: "https://127.0.0.1:3000/auth/google/callback" //what should be the callback
+        callbackURL: "https://127.0.0.1:3000/auth/google/callback", //what should be the callback
+        passReqToCallback: true
     },
     function(accessToken, refreshToken, profile, done) {
         /*
@@ -25,8 +30,12 @@ passport.use(new GoogleStrategy({
         */
 
         //todo: VALIDATE NMH
+        var NMHEmail = /(.*)nmhschool\.org/;
+        if (!NMHEmail.test(profile.emails[0].value)) {
+        	//authentication failed
+        }
 
-        Googleuser.findOne({ 'googleId': profile.id})
+        Googleuser.findOne({'id': profile.id})
             .exec( function(err, found_googleuser) {
                 if (err) { return next(err); }
 
@@ -45,9 +54,8 @@ passport.use(new GoogleStrategy({
                         last_name: profile.name.familyName,
                         display_name: profile.name.displayName,
                         email: profile.emails[0].value,
-                        user_type: 'rider', //todo: HORRIBLE TEMPORARY MEAN
                         id: profile.id
-                    });
+                    });//todo: findout if this is necessary, or whether I should just create it in get/post
 
                        googleuser.save(function (err) {
                         if (err) { return next(err); }
@@ -63,7 +71,14 @@ passport.use(new GoogleStrategy({
 
 // Display Author create form on GET.
 exports.googleuser_create_get = function(req, res, next) {       
-    res.render('googleuser_form', { title: 'Create GoogleUser'}); //add related user info
+    res.render('googleuser_form', {
+    	firstName: req.user.profile.name.givenName,
+        lastName: req.user.profile.name.familyName,
+        displayName: req.user.profile.name.displayName,
+        email: req.user.profile.emails[0].value,
+        id: req.user.profile.id
+    }); //add related user info //todo: find out of this is possible
+
 };
 
 // Handle Author create on POST.
@@ -95,20 +110,39 @@ exports.googleuser_create_post = [
 
         console.log(req.body);
 
-        // Create a genre object with escaped and trimmed data.
+        // Create a googleuser object with escaped and trimmed data.
         var googleuser = new Googleuser({
-            email_address: req.body.emailAddress,
             user_type: req.body.userType,
 
+            /*
+            email_address: req.body.emailAddress,
+           	
             first_name: 'testfirstname',
             last_name: 'testlastname',
             display_name: 'testdisplayname',
             id: 'testid'
+            */
+
+            firstName: req.user.profile.name.givenName,
+	        lastName: req.user.profile.name.familyName,
+	        displayName: req.user.profile.name.displayName,
+	        email: req.user.profile.emails[0].value,
+	        id: req.user.profile.id
         });
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.render('googleuser_form', { title: 'Create GoogleUser', author: req.body, errors: errors.array() });
+            res.render('googleuser_form', {
+            	title: 'Create GoogleUser',
+            	author: req.body,
+            	errors: errors.array(),
+
+            	firstName: profile.name.givenName,
+		        lastName: profile.name.familyName,
+		        displayName: profile.name.displayName,
+		        email: profile.emails[0].value,
+		        id: profile.id
+            });
             return;
         }
 
@@ -130,11 +164,11 @@ exports.googleuser_create_post = [
                         }
                     }
                     else {
-                            googleuser.save(function (err) {
+                        googleuser.save(function (err) {
                             if (err) { return next(err); }
-                            // Googleuser saved. Redirect to success page.
-                            res.render('../views/googleuser_register_success', {user_type: googleuser.user_type}); //todo: something else
-                        });
+                        	// Googleuser saved. Redirect to success page.
+                        	res.render('../views/googleuser_register_success', {user_type: googleuser.user_type}); //todo: something else
+                    	});
                     }
                 });
             }

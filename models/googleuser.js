@@ -15,10 +15,12 @@ var GoogleuserSchema = new Schema({
     user_type:
     {
     	type: String,
-    	enum: ['rider', 'driver'],
-    	required: true,
+    	enum: ['rider', 'driver', 'none'],
+    	default: 'none',
+    	required: true
     },
-    id: {type: String, required: true}
+    id: {type: String, required: true},
+    registered: {type: Boolean, required: true, deafult: false}
 });
 
 // Compile model from schema

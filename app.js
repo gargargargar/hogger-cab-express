@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var passport = require('passport');
+var expressSession = require('express-session');
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
