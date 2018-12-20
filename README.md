@@ -7,7 +7,9 @@ This project is very much still in development; look out for future updates soon
 ## Latest updates
 
 Need to implement HTTPS with SSH credentials to test OAuth
-Considered options: ngrock or DigitalOcean server
+Considered options:
+- ngrock: command `ngrock https 3000`
+- DigitalOcean server
 
 Need to implement googleuser GET and POST calls after OAuth authentication
 
